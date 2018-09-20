@@ -4,18 +4,18 @@ class Api::V1::ProductsController < ApplicationController
     def index
         @product = Product.all
         render json: @product
-    end
-
-    def create
+      end
+      
+      def create
         @product = Product.create(product_params)   
         if @product.save
-          render json: @product
+          render json: { product: @product }, status: :created
         else
           render json: { errors: @product.errors }, status: 422
         end
     end
 
-    private
+  private
 
     def product_params
       params.require(:product).permit(:name, :price)
